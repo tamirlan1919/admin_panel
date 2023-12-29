@@ -1,9 +1,9 @@
 import { IResourceComponentsProps } from "@refinedev/core";
-import { AntdListInferencer } from "@refinedev/inferencer/antd";
+import { AntdShowInferencer } from "@refinedev/inferencer/antd";
 
-export const BlogPostList: React.FC<IResourceComponentsProps> = () => {
+export const BrandsShow: React.FC<IResourceComponentsProps> = () => {
   return (
-    <AntdListInferencer
+    <AntdShowInferencer
       fieldTransformer={(field) => {
         if (["locale", "updatedAt", "publishedAt"].includes(field.key)) {
           return false;

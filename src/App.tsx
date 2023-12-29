@@ -21,22 +21,31 @@ import { DataProvider } from "@refinedev/strapi-v4";
 import { App as AntdApp } from "antd";
 import { useTranslation } from "react-i18next";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
-import { authProvider, axiosInstance } from "./authProvider";
+import axios from "axios"; // Import axios
+import { TOKEN_KEY as JWT_TOKEN} from "./constants";
+
+import { authProvider } from "./authProvider";
 import { Header } from "./components/header";
 import { API_URL } from "./constants";
 import { ColorModeContextProvider } from "./contexts/color-mode";
 import {
-  BlogPostCreate,
-  BlogPostEdit,
-  BlogPostList,
-  BlogPostShow,
-} from "./pages/blog-posts";
+  ProductsCreate,
+  ProductsEdit,
+  ProductsList,
+  ProductsShow,
+} from "./pages/products";
 import {
   CategoryCreate,
   CategoryEdit,
   CategoryList,
   CategoryShow,
 } from "./pages/categories";
+import { UserList } from "./pages/users/list";
+import { UserCreate } from "./pages/users/create";
+import { UserEdit } from "./pages/users/edit";
+import { UserShow } from "./pages/users/show";
+import { OrdersCreate, OrdersEdit, OrdersList, OrdersShow } from "./pages/orders";
+import { BrandsCreate, BrandsEdit, BrandsList, BrandsShow } from "./pages/brands";
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -47,26 +56,101 @@ function App() {
     getLocale: () => i18n.language,
   };
 
+  // Separate instances for different resources
+  const usersAxiosInstance = axios.create({
+    baseURL: API_URL + "/api", // Adjust the base URL accordingly
+    headers: {
+      Authorization: `Bearer ${JWT_TOKEN}`,
+      // Add other headers if needed
+    },
+  });
+  
+  const productsAxiosInstance = axios.create({
+    baseURL: API_URL + "/api", // Adjust the base URL accordingly
+    headers: {
+      Authorization: `Bearer ${JWT_TOKEN}`,
+      // Add other headers if needed
+    },
+  });
+  
+  // Repeat the process for other Axios instances (orders, brands, categories)
+  
+  const ordersAxiosInstance = axios.create({
+    baseURL: API_URL + "/api", // Adjust the base URL accordingly
+    headers: {
+      Authorization: `Bearer ${JWT_TOKEN}`,
+      // Add other headers if needed
+    },
+  });
+  
+  const brandsAxiosInstance = axios.create({
+    baseURL: API_URL + "/api", // Adjust the base URL accordingly
+    headers: {
+      Authorization: `Bearer ${JWT_TOKEN}`,
+      // Add other headers if needed
+    },
+  });
+  
+  const categoriesAxiosInstance = axios.create({
+    baseURL: API_URL + "/api", // Adjust the base URL accordingly
+    headers: {
+      Authorization: `Bearer ${JWT_TOKEN}`,
+      // Add other headers if needed
+    },
+  });
+
   return (
     <BrowserRouter>
-      <GitHubBanner />
       <RefineKbarProvider>
         <ColorModeContextProvider>
           <AntdApp>
             <DevtoolsProvider>
               <Refine
                 authProvider={authProvider}
-                dataProvider={DataProvider(API_URL + `/api`, axiosInstance)}
+                dataProvider={DataProvider(
+                  API_URL + `/api`,
+                  usersAxiosInstance
+                )} // Use usersAxiosInstance for users resource
                 notificationProvider={useNotificationProvider}
                 routerProvider={routerBindings}
                 i18nProvider={i18nProvider}
                 resources={[
                   {
-                    name: "blog-posts",
-                    list: "/blog-posts",
-                    create: "/blog-posts/create",
-                    edit: "/blog-posts/edit/:id",
-                    show: "/blog-posts/show/:id",
+                    name: "users",
+                    list: "/users",
+                    create: "/users/create",
+                    edit: "/users/edit/:id",
+                    show: "/users/show/:id",
+                    meta: {
+                      canDelete: true,
+                    },
+                  },
+                  {
+                    name: "products",
+                    list: "/products",
+                    create: "/products/create",
+                    edit: "/products/edit/:id",
+                    show: "/products/show/:id",
+                    meta: {
+                      canDelete: true,
+                    },
+                  },
+                  {
+                    name: "orders",
+                    list: "/orders",
+                    create: "/orders/create",
+                    edit: "/orders/edit/:id",
+                    show: "/orders/show/:id",
+                    meta: {
+                      canDelete: true,
+                    },
+                  },
+                  {
+                    name: "brands",
+                    list: "/brands",
+                    create: "/brands/create",
+                    edit: "/brands/edit/:id",
+                    show: "/brands/show/:id",
                     meta: {
                       canDelete: true,
                     },
@@ -109,17 +193,35 @@ function App() {
                       index
                       element={<NavigateToResource resource="blog-posts" />}
                     />
-                    <Route path="/blog-posts">
-                      <Route index element={<BlogPostList />} />
-                      <Route path="create" element={<BlogPostCreate />} />
-                      <Route path="edit/:id" element={<BlogPostEdit />} />
-                      <Route path="show/:id" element={<BlogPostShow />} />
+                    <Route path="/users">
+                      <Route index element={<UserList />} />
+                      <Route path="create" element={<UserCreate />} />
+                      <Route path="edit/:id" element={<UserEdit />} />
+                      <Route path="show/:id" element={<UserShow />} />
                     </Route>
                     <Route path="/categories">
                       <Route index element={<CategoryList />} />
                       <Route path="create" element={<CategoryCreate />} />
                       <Route path="edit/:id" element={<CategoryEdit />} />
                       <Route path="show/:id" element={<CategoryShow />} />
+                    </Route>
+                    <Route path="/products">
+                      <Route index element={<ProductsList />} />
+                      <Route path="create" element={<ProductsCreate />} />
+                      <Route path="edit/:id" element={<ProductsEdit />} />
+                      <Route path="show/:id" element={<ProductsShow />} />
+                    </Route>
+                    <Route path="/orders">
+                      <Route index element={<OrdersList />} />
+                      <Route path="create" element={<OrdersCreate />} />
+                      <Route path="edit/:id" element={<OrdersEdit />} />
+                      <Route path="show/:id" element={<OrdersShow />} />
+                    </Route>
+                    <Route path="/brands">
+                      <Route index element={<BrandsList />} />
+                      <Route path="create" element={<BrandsCreate />} />
+                      <Route path="edit/:id" element={<BrandsEdit />} />
+                      <Route path="show/:id" element={<BrandsShow />} />
                     </Route>
                     <Route path="*" element={<ErrorComponent />} />
                   </Route>
