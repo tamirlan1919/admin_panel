@@ -15,11 +15,10 @@ import {
 } from "@refinedev/antd";
 import { Table, Space } from "antd";
 
-export const ProductList: React.FC<IResourceComponentsProps> = () => {
+export const ProductsList: React.FC<IResourceComponentsProps> = () => {
     const translate = useTranslate();
     const { tableProps } = useTable({
         syncWithLocation: true,
- 
     });
 
     return (
@@ -31,44 +30,23 @@ export const ProductList: React.FC<IResourceComponentsProps> = () => {
                 />
                 <Table.Column
                     dataIndex="name"
-                    title={translate("products.fields.name")}
+                    title={translate("Товар")}
                 />
-                <Table.Column
-                    dataIndex="slug"
-                    title={translate("products.fields.slug")}
-                />
-                <Table.Column
-                    dataIndex="description"
-                    title={translate("products.fields.description")}
-                />
+    
+    
                 <Table.Column
                     dataIndex="price"
-                    title={translate("products.fields.price")}
+                    title={translate("Цена")}
                 />
                 <Table.Column
                     dataIndex="old_price"
-                    title={translate("products.fields.old_price")}
+                    title={translate("Старая цена")}
                 />
                 <Table.Column
                     dataIndex="stock"
-                    title={translate("products.fields.stock")}
+                    title={translate("Кол-во")}
                 />
-                <Table.Column
-                    dataIndex={["available"]}
-                    title={translate("products.fields.available")}
-                    render={(value: any) => <BooleanField value={value} />}
-                />
-                <Table.Column
-                    dataIndex={["is_on_sale"]}
-                    title={translate("products.fields.is_on_sale")}
-                    render={(value: any) => <BooleanField value={value} />}
-                />
-
-                <Table.Column
-                    dataIndex={["createdAt"]}
-                    title={translate("products.fields.createdAt")}
-                    render={(value: any) => <DateField value={value} />}
-                />
+  
                 <Table.Column
                     title={translate("table.actions")}
                     dataIndex="actions"
