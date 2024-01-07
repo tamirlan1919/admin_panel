@@ -46,6 +46,8 @@ import { UserEdit } from "./pages/users/edit";
 import { UserShow } from "./pages/users/show";
 import { OrdersCreate, OrdersEdit, OrdersList, OrdersShow } from "./pages/orders";
 import { BrandsCreate, BrandsEdit, BrandsList, BrandsShow } from "./pages/brands";
+import { UserOutlined, ShopOutlined, ContainerOutlined, OrderedListOutlined, TagOutlined } from '@ant-design/icons';
+
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -123,6 +125,8 @@ function App() {
                     show: "/users/show/:id",
                     meta: {
                       canDelete: true,
+                      icon: <UserOutlined />,
+
                     },
                   },
                   {
@@ -133,6 +137,8 @@ function App() {
                     show: "/products/show/:id",
                     meta: {
                       canDelete: true,
+                      icon: <ShopOutlined />,
+
                     },
                   },
                   {
@@ -143,6 +149,8 @@ function App() {
                     show: "/orders/show/:id",
                     meta: {
                       canDelete: true,
+                      icon: <OrderedListOutlined />,
+
                     },
                   },
                   {
@@ -153,6 +161,8 @@ function App() {
                     show: "/brands/show/:id",
                     meta: {
                       canDelete: true,
+                      icon: <ContainerOutlined />,
+
                     },
                   },
                   {
@@ -163,6 +173,8 @@ function App() {
                     show: "/categories/show/:id",
                     meta: {
                       canDelete: true,
+                      icon: <TagOutlined />,
+
                     },
                   },
                 ]}

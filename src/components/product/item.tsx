@@ -31,8 +31,9 @@ export const ProductItem: React.FC<ProductItemProps> = ({ item, editShow }) => {
         >
             <Meta
                 className="ant-card-meta-title"
-                title={item.title}
-                description={item.description}
+                title={item.brand?.name}
+                description={item.name}
+                
             />
         </Card>
     );

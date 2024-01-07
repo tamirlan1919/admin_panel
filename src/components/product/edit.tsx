@@ -23,8 +23,19 @@ export const EditProduct: React.FC<EditProductProps> = ({
                 }}
             >
                 <Form.Item
-                    label="Title"
-                    name="title"
+                    label="Название"
+                    name="name"
+                    rules={[
+                        {
+                            required: true,
+                        },
+                    ]}
+                >
+                    <Input />
+                </Form.Item>
+                <Form.Item
+                    label="Бренд"
+                    name="brand.name"
                     rules={[
                         {
                             required: true,

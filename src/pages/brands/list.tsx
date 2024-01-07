@@ -31,10 +31,7 @@ export const BrandsList: React.FC<IResourceComponentsProps> = () => {
                     dataIndex="name"
                     title={translate("name")}
                 />
-                <Table.Column
-                    dataIndex="slug"
-                    title={translate("slug")}
-                />
+   
                 <Table.Column
                     dataIndex={["createdAt"]}
                     title={translate("createdAt")}
