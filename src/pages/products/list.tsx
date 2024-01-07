@@ -9,7 +9,7 @@ import {
     CreateButton,
     List,
 } from "@refinedev/antd";
-import { List as AntdList, Input, Pagination, Form } from "antd";
+import { List as AntdList } from "antd";
 
 import {
     ProductItem,
@@ -20,7 +20,7 @@ import { IProduct } from "../../interfaces";
 
 export const ProductsList: React.FC<IResourceComponentsProps> = () => {
     const { params } = useParsed<{ tenant: string }>();
-    const { listProps, searchFormProps, filters, pagination } = useSimpleList<IProduct>({
+    const { listProps } = useSimpleList<IProduct>({
         permanentFilter: [
             {
                 field: "stores][id]",
@@ -29,11 +29,6 @@ export const ProductsList: React.FC<IResourceComponentsProps> = () => {
             },
         ],
         metaData: { populate: ["image,brand,price"] },
-        pagination: { pageSize: 12, current: 1 }, // Настройте параметры пагинации
-        onSearch: ({ searchTerm }) => {
-            // Ваша логика для обработки поиска
-            return [{ field: "name", operator: "contains", value: searchTerm }];
-        },
     });
 
     const {
@@ -59,19 +54,6 @@ export const ProductsList: React.FC<IResourceComponentsProps> = () => {
 
     return (
         <>
-            <Form
-                {...searchFormProps}
-                onValuesChange={() => {
-                    searchFormProps.form?.submit();
-                }}
-            >
-                <Input
-                    style={{ width: 200 }}
-                    placeholder="Search products"
-                    {...searchFormProps}
-                />
-            </Form>
-
             <List
                 headerProps={{
                     extra: <CreateButton onClick={() => createShow()} />,
@@ -81,7 +63,6 @@ export const ProductsList: React.FC<IResourceComponentsProps> = () => {
                     grid={{ gutter: 16, xs: 1 , xl: 4, lg: 3, md:6 }}
                     style={{
                         justifyContent: "center",
-                        
                     }}
                     {...listProps}
                     renderItem={(item) => (
@@ -91,9 +72,6 @@ export const ProductsList: React.FC<IResourceComponentsProps> = () => {
                     )}
                 />
             </List>
-
-            <Pagination {...pagination} />
-
             <EditProduct
                 modalProps={editModalProps}
                 formProps={editFormProps}
