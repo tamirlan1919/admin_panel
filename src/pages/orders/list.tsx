@@ -20,6 +20,7 @@ export const OrdersList: React.FC<IResourceComponentsProps> = () => {
         syncWithLocation: true,
     });
 
+    console.log(tableProps)
     return (
         <List>
             <Table {...tableProps} rowKey="id">

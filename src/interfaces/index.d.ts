@@ -8,6 +8,8 @@ export interface IProduct {
     title: string;
     description: string;
     image: any; // eslint-disable-line
+    category: any;
+    brand: any;
     stores: IStore;
 }
 

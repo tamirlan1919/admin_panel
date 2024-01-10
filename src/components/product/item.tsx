@@ -8,6 +8,7 @@ import { API_URL } from "../../constants";
 type ProductItemProps = {
     item: IProduct;
     editShow: (id?: string | undefined) => void;
+ 
 };
 
 const { Meta } = Card;

@@ -24,47 +24,16 @@ type CreateProductProps = {
   modalProps: ModalProps;
   formProps: FormProps;
   categories: any[]; // Add categories prop
+  brands: any[]
 };
 
 export const CreateProduct: React.FC<CreateProductProps> = ({
   modalProps,
-  formProps
+  formProps,
+  categories,
+  brands
 }) => {
   const { params } = useParsed<{ tenant: string }>();
-  const [brands, setBrands] = useState<any[]>([]);
-  const [categories, setCategories] = useState<any[]>([]);
-  useEffect(() => {
-    const fetchBrands = async () => {
-      try {
-        const response = await axios.get(`${API_URL}/api/brands?populate=*`, {
-          headers: {
-            Authorization: `Bearer ${TOKEN_KEY}`, // Adjust as needed
-          },
-        });
-        setBrands(response.data);
-      } catch (error) {
-        console.error('Error fetching brands:', error);
-      }
-    };
-  
-    fetchBrands();
-  }, []); // Empty dependency array ensures the effect runs once on mount
-useEffect(() => {
-  const fetchCategories = async () => {
-    try {
-      const response = await axios.get(`${API_URL}/api/categories?populate=*`, {
-        headers: {
-          Authorization: `Bearer ${TOKEN_KEY}`, // Adjust as needed
-        },
-      });
-      setCategories(response.data); // Fix: setCategories instead of setBrands
-    } catch (error) {
-      console.error('Error fetching categories:', error); // Fix: log categories instead of brands
-    }
-  };
-
-  fetchCategories();
-}, []);
 
     return (
         <Modal {...modalProps}>
@@ -105,7 +74,7 @@ useEffect(() => {
                     ]}
                 >
                     <Select>
-                        {categories.data?.map((category) => (
+                        {categories?.map((category) => (
                             <Option key={category?.id} value={category?.id}>
                                 {category.attributes?.name}
                             </Option>
@@ -123,7 +92,7 @@ useEffect(() => {
                     ]}
                 >
                     <Select>
-                        {brands.data?.map((brand) => (
+                        {brands?.map((brand) => (
                             <Option key={brand?.id} value={brand?.id}>
                                 {brand.attributes?.name}
                             </Option>
@@ -189,11 +158,7 @@ useEffect(() => {
                         valuePropName="fileList"
                         getValueProps={(data) => getValueProps(data, API_URL)}
                         noStyle
-                        rules={[
-                            {
-                                required: true,
-                            },
-                        ]}
+                       
                     >
                         <Upload.Dragger
                             name="files"

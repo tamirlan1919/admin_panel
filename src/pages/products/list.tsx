@@ -17,6 +17,9 @@ import {
     EditProduct,
 } from "../../components/product";
 import { IProduct } from "../../interfaces";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { API_URL, TOKEN_KEY } from "../../constants";
 
 export const ProductsList: React.FC<IResourceComponentsProps> = () => {
     const { params } = useParsed<{ tenant: string }>();
@@ -28,7 +31,7 @@ export const ProductsList: React.FC<IResourceComponentsProps> = () => {
                 value: params?.tenant,
             },
         ],
-        metaData: { populate: ["image,brand,price"] },
+        metaData: { populate: ["image,brand,price,category"] },
     });
 
     const {
@@ -39,6 +42,7 @@ export const ProductsList: React.FC<IResourceComponentsProps> = () => {
         action: "create",
         resource: "products",
         redirect: false,
+        metaData: {populate: ['*']}
     });
 
     const {
@@ -47,11 +51,48 @@ export const ProductsList: React.FC<IResourceComponentsProps> = () => {
         show: editShow,
     } = useModalForm<IProduct, HttpError, IProduct>({
         action: "edit",
-        metaData: { populate: ["image",'brand',] },
+        metaData: { populate: ["*"] },
         resource: "products",
         redirect: false,
-    });
 
+    });
+    const [categories, setCategories] = useState<any[]>([]);
+    const [brands, setBrands] = useState<any[]>([]);
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await axios.get(`${API_URL}/api/categories?populate=*`, {
+                    headers: {
+                        Authorization: `Bearer ${TOKEN_KEY}`, // Adjust as needed
+                    },
+                });
+                setCategories(response.data.data);
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
+        };
+
+        fetchCategories();
+    }, []);
+    useEffect(() => {
+        const fetchBrands = async () => {
+          try {
+            const response = await axios.get(`${API_URL}/api/brands?populate=*`, {
+              headers: {
+                Authorization: `Bearer ${TOKEN_KEY}`, // Adjust as needed
+              },
+            });
+            setBrands(response.data.data);
+          } catch (error) {
+            console.error('Error fetching brands:', error);
+          }
+        };
+      
+        fetchBrands();
+      }, []); // Empty dependency array ensures the effect runs once on mount
+    
+    
     return (
         <>
             <List
@@ -75,10 +116,14 @@ export const ProductsList: React.FC<IResourceComponentsProps> = () => {
             <EditProduct
                 modalProps={editModalProps}
                 formProps={editFormProps}
+                categories={categories}
+                brands = {brands}
             />
             <CreateProduct
                 modalProps={createModalProps}
                 formProps={createModalFormProps}
+                categories={categories}
+                brands = {brands}
             />
         </>
     );
