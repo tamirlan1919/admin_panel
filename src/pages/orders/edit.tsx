@@ -10,9 +10,9 @@ const { Option } = Select;
 
 export const OrdersEdit: React.FC<IResourceComponentsProps> = () => {
     const translate = useTranslate();
-    const { formProps, saveButtonProps, queryResult } = useForm();
+    const { formProps, saveButtonProps, queryResult } = useForm({metaData: {populate: '*'}});
     const [statusOptions, setStatusOptions] = useState<any[]>([]);
-    
+    console.log(queryResult)
     useEffect(() => {
       const fetchStatusOptions = async () => {
         try {

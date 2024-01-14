@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import {
     IResourceComponentsProps,
     HttpError,
@@ -17,7 +18,6 @@ import {
     EditProduct,
 } from "../../components/product";
 import { IProduct } from "../../interfaces";
-import { useEffect, useState } from "react";
 import axios from "axios";
 import { API_URL, TOKEN_KEY } from "../../constants";
 
@@ -31,7 +31,7 @@ export const ProductsList: React.FC<IResourceComponentsProps> = () => {
                 value: params?.tenant,
             },
         ],
-        metaData: { populate: ["image,brand,price,category"] },
+        metaData: { populate: '*' },
     });
 
     const {
@@ -42,7 +42,7 @@ export const ProductsList: React.FC<IResourceComponentsProps> = () => {
         action: "create",
         resource: "products",
         redirect: false,
-        metaData: {populate: ['*']}
+        meta:  { populate: '*' },
     });
 
     const {
@@ -51,20 +51,23 @@ export const ProductsList: React.FC<IResourceComponentsProps> = () => {
         show: editShow,
     } = useModalForm<IProduct, HttpError, IProduct>({
         action: "edit",
-        metaData: { populate: ["*"] },
+        meta:  { populate: '*' },
         resource: "products",
         redirect: false,
-
     });
+
     const [categories, setCategories] = useState<any[]>([]);
     const [brands, setBrands] = useState<any[]>([]);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState("");
+    const [selectedBrand, setSelectedBrand] = useState("");
 
     useEffect(() => {
         const fetchCategories = async () => {
             try {
                 const response = await axios.get(`${API_URL}/api/categories?populate=*`, {
                     headers: {
-                        Authorization: `Bearer ${TOKEN_KEY}`, // Adjust as needed
+                        Authorization: `Bearer ${TOKEN_KEY}`,
                     },
                 });
                 setCategories(response.data.data);
@@ -75,12 +78,13 @@ export const ProductsList: React.FC<IResourceComponentsProps> = () => {
 
         fetchCategories();
     }, []);
+
     useEffect(() => {
         const fetchBrands = async () => {
           try {
             const response = await axios.get(`${API_URL}/api/brands?populate=*`, {
               headers: {
-                Authorization: `Bearer ${TOKEN_KEY}`, // Adjust as needed
+                Authorization: `Bearer ${TOKEN_KEY}`,
               },
             });
             setBrands(response.data.data);
@@ -90,18 +94,51 @@ export const ProductsList: React.FC<IResourceComponentsProps> = () => {
         };
       
         fetchBrands();
-      }, []); // Empty dependency array ensures the effect runs once on mount
-    
-    
+    }, []);
+
     return (
         <>
+            {/* <div style={{ marginBottom: "16px", display: "flex", alignItems: "center" }}>
+                <input
+                    type="text"
+                    placeholder="Search by name"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    style={{ marginRight: "8px", color: "black", padding: "8px", borderRadius: "4px", border: "1px solid #ccc" }}
+                />
+                <select
+                    value={selectedCategory}
+                    onChange={(e) => setSelectedCategory(e.target.value)}
+                    style={{ marginRight: "8px", color: "black", padding: "8px", borderRadius: "4px", border: "1px solid #ccc" }}
+                >
+                    <option value="">Select Category</option>
+                    {categories?.map((category) => (
+                        <option key={category?.id} value={category?.id}>
+                            {category?.attributes?.name}
+                        </option>
+                    ))}
+                </select>
+                <select
+                    value={selectedBrand}
+                    onChange={(e) => setSelectedBrand(e.target.value)}
+                    style={{ marginRight: "8px", color: "black", padding: "8px", borderRadius: "4px", border: "1px solid #ccc" }}
+                >
+                    <option value="">Select Brand</option>
+                    {brands?.map((brand) => (
+                        <option key={brand?.id} value={brand?.id}>
+                            {brand?.attributes?.name}
+                        </option>
+                    ))}
+                </select>
+            
+            </div> */}
             <List
                 headerProps={{
                     extra: <CreateButton onClick={() => createShow()} />,
                 }}
             >
                 <AntdList
-                    grid={{ gutter: 16, xs: 1 , xl: 4, lg: 3, md:6 }}
+                    grid={{ gutter: 16, xs: 1, xl: 4, lg: 4, md: 6 }}
                     style={{
                         justifyContent: "center",
                     }}
@@ -117,14 +154,16 @@ export const ProductsList: React.FC<IResourceComponentsProps> = () => {
                 modalProps={editModalProps}
                 formProps={editFormProps}
                 categories={categories}
-                brands = {brands}
+                brands={brands}
             />
             <CreateProduct
                 modalProps={createModalProps}
                 formProps={createModalFormProps}
                 categories={categories}
-                brands = {brands}
+                brands={brands}
             />
         </>
     );
 };
+
+export default ProductsList;

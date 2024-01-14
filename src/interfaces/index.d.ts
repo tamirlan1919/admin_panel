@@ -10,6 +10,8 @@ export interface IProduct {
     image: any; // eslint-disable-line
     category: any;
     brand: any;
+    name: any;
+    price:string,
     stores: IStore;
 }
 

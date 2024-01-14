@@ -3,6 +3,7 @@ import {
     IResourceComponentsProps,
     BaseRecord,
     useTranslate,
+    useParsed,
 } from "@refinedev/core";
 import {
     useTable,
@@ -13,11 +14,22 @@ import {
     DateField,
 } from "@refinedev/antd";
 import { Table, Space } from "antd";
+import { IOrder } from "../../interfaces";
 
 export const OrdersList: React.FC<IResourceComponentsProps> = () => {
     const translate = useTranslate();
-    const { tableProps } = useTable({
-        syncWithLocation: true,
+    const { params } = useParsed<{ tenant: string }>();
+    const { tableProps } = useTable<IOrder>({
+        permanentFilter: [
+            {
+                field: "stores][id]",
+                operator: "eq",
+                value: params?.tenant,
+            },
+        ],
+        metaData: {
+            populate:  '*',
+        },
     });
 
     console.log(tableProps)
@@ -27,18 +39,26 @@ export const OrdersList: React.FC<IResourceComponentsProps> = () => {
                 <Table.Column
                     dataIndex="id"
                     title={translate("id")}
+                    sorter
                 />
                 <Table.Column
                     dataIndex="total_price"
                     title={translate("total_price")}
+                    sorter
                 />
                 <Table.Column
                     dataIndex="status"
                     title={translate("status")}
+                    sorter
+                />
+                <Table.Column
+                    dataIndex={['user','username']}
+                    title={translate("Клиент")}
                 />
                 <Table.Column
                     dataIndex={["createdAt"]}
                     title={translate("createdAt")}
+                    sorter
                     render={(value: any) => <DateField value={value} />}
                 />
 

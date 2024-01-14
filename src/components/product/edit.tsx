@@ -20,6 +20,7 @@ type EditProductProps = {
     formProps: FormProps;
     categories: any[]; // Add categories prop
     brands: any[]
+    
 
 };
 
@@ -28,15 +29,26 @@ export const EditProduct: React.FC<EditProductProps> = ({
     formProps,
     categories,
     brands,
+    
 }) => {
     const { params } = useParsed<{ tenant: string }>();
+    const productData = formProps?.initialValues;
+    const [selectedCategory, setSelectedCategory] = useState<string | undefined>(undefined);
+    const [selectedBrand, setSelectedBrand] = useState<string | undefined>(undefined);
 
-console.log(formProps.initialValues)
+    // Update selectedCategory and selectedBrand when categories or brands change
+    useEffect(() => {
+        setSelectedCategory(undefined);
+        setSelectedBrand(undefined);
+    }, [categories, brands]);
+
+    console.log(productData)
     return (
         <Modal {...modalProps}>
             <Form
                 {...formProps}
                 wrapperCol={{ span: 12 }}
+                
                 layout="vertical"
                 onFinish={(values) => {
                     formProps.onFinish?.(mediaUploadMapper(values));
@@ -56,43 +68,42 @@ console.log(formProps.initialValues)
                 >
                     <Input />
                 </Form.Item>
+
+                {/* Dropdown for Category */}
                 <Form.Item
                     label="Категория"
-                    name="category"
-                    
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please select a category',
-                        },
-                    ]}
+                    name={['category','name']}
+                    rules={[{ required: true, message: 'Please select a category' }]}
                 >
-                 <Select defaultValue={formProps.initialValues?.category}>
+                    <Select
+                                            value={selectedCategory}
+                                            onChange={(value) => setSelectedCategory(value)}
+                    >
                         {categories.map((category) => (
-                            <Option key={category?.id} value={category?.id}>
+                            <Option key={category?.id}  value={category?.id}>
                                 {category.attributes?.name}
                             </Option>
                         ))}
                     </Select>
                 </Form.Item>
+
+                {/* Dropdown for Brand */}
                 <Form.Item
                     label="Бренд"
-                    name="brand"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please select a brand',
-                        },
-                    ]}
+                    name={['brand','name']}
+                    rules={[{ required: true, message: 'Please select a brand' }]}
                 >
-                    <Select>
-                        {brands?.map((brand) => (
-                            <Option key={brand?.id} value={brand?.id}>
+                    <Select 
+                              value={productData?.brand?.id}
+                    >
+                        {brands.map((brand) => (
+                            <Option key={brand?.id} value={brand?.attributes?.name}>
                                 {brand.attributes?.name}
                             </Option>
                         ))}
                     </Select>
                 </Form.Item>
+
                 <Form.Item
                     label="Цена"
                     name="price"
