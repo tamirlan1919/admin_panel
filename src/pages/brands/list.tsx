@@ -35,6 +35,7 @@ export const BrandsList: React.FC<IResourceComponentsProps> = () => {
                 <Table.Column
                     dataIndex={["createdAt"]}
                     title={translate("createdAt")}
+                    sorter
                     render={(value: any) => <DateField value={value} />}
                 />
                 <Table.Column

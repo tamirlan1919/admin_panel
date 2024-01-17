@@ -12,7 +12,30 @@ export interface IProduct {
     brand: any;
     name: any;
     price:string,
+    filter: any,
     stores: IStore;
+}
+
+export interface IBanner {
+    id: string;
+    title: string;
+    description: string;
+    image: any; // eslint-disable-line
+    category: any;
+    brand: any;
+    name: any;
+    price:string,
+    filter: any,
+    stores: IStore;
+
+}
+
+export interface IBannerBrands {
+    id: string;
+    title: string;
+    description: string;
+    image: any; // eslint-disable-line
+
 }
 
 export interface IOrder {
@@ -24,6 +47,13 @@ export interface IOrder {
     product: IProduct;
     customerAddress: string;
     stores: IStore;
+}
+
+export interface IReviews {
+    id: string;
+    rating: number;
+    text: string;
+
 }
 
 export interface IOrderForm {

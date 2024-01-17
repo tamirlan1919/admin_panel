@@ -29,9 +29,14 @@ export const ProductsList: React.FC<IResourceComponentsProps> = () => {
                 field: "stores][id]",
                 operator: "eq",
                 value: params?.tenant,
+                
             },
         ],
         metaData: { populate: '*' },
+        initialSorter: [{
+            field: 'id',
+            order: 'desc',
+          }],
     });
 
     const {
@@ -98,40 +103,7 @@ export const ProductsList: React.FC<IResourceComponentsProps> = () => {
 
     return (
         <>
-            {/* <div style={{ marginBottom: "16px", display: "flex", alignItems: "center" }}>
-                <input
-                    type="text"
-                    placeholder="Search by name"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    style={{ marginRight: "8px", color: "black", padding: "8px", borderRadius: "4px", border: "1px solid #ccc" }}
-                />
-                <select
-                    value={selectedCategory}
-                    onChange={(e) => setSelectedCategory(e.target.value)}
-                    style={{ marginRight: "8px", color: "black", padding: "8px", borderRadius: "4px", border: "1px solid #ccc" }}
-                >
-                    <option value="">Select Category</option>
-                    {categories?.map((category) => (
-                        <option key={category?.id} value={category?.id}>
-                            {category?.attributes?.name}
-                        </option>
-                    ))}
-                </select>
-                <select
-                    value={selectedBrand}
-                    onChange={(e) => setSelectedBrand(e.target.value)}
-                    style={{ marginRight: "8px", color: "black", padding: "8px", borderRadius: "4px", border: "1px solid #ccc" }}
-                >
-                    <option value="">Select Brand</option>
-                    {brands?.map((brand) => (
-                        <option key={brand?.id} value={brand?.id}>
-                            {brand?.attributes?.name}
-                        </option>
-                    ))}
-                </select>
-            
-            </div> */}
+
             <List
                 headerProps={{
                     extra: <CreateButton onClick={() => createShow()} />,

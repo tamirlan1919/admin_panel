@@ -14,12 +14,12 @@ import {
     DateField,
 } from "@refinedev/antd";
 import { Table, Space } from "antd";
-import { IOrder } from "../../interfaces";
+import { IReviews } from "../../interfaces";
 
-export const OrdersList: React.FC<IResourceComponentsProps> = () => {
+export const ReviewsList: React.FC<IResourceComponentsProps> = () => {
     const translate = useTranslate();
     const { params } = useParsed<{ tenant: string }>();
-    const { tableProps } = useTable<IOrder>({
+    const { tableProps } = useTable<IReviews>({
         permanentFilter: [
             {
                 field: "stores][id]",
@@ -47,20 +47,22 @@ export const OrdersList: React.FC<IResourceComponentsProps> = () => {
                     title={translate("id")}
                     sorter
                 />
-                <Table.Column
-                    dataIndex="total_price"
-                    title={translate("total_price")}
-                    sorter
-                />
-                <Table.Column
-                    dataIndex="status"
-                    title={translate("status")}
-                    sorter
-                />
-                <Table.Column
+            <Table.Column
                     dataIndex={['user','username']}
                     title={translate("Клиент")}
                 />
+                <Table.Column
+                    dataIndex="text"
+                    title={translate("Текст")}
+                    sorter
+                />
+                    <Table.Column
+                    dataIndex="rating"
+                    title={translate("Рейтинг")}
+                    sorter
+                />
+           
+           
                 <Table.Column
                     dataIndex={["createdAt"]}
                     title={translate("createdAt")}

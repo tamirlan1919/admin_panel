@@ -46,7 +46,16 @@ import { UserEdit } from "./pages/users/edit";
 import { UserShow } from "./pages/users/show";
 import { OrdersCreate, OrdersEdit, OrdersList, OrdersShow } from "./pages/orders";
 import { BrandsCreate, BrandsEdit, BrandsList, BrandsShow } from "./pages/brands";
-import { UserOutlined, ShopOutlined, ContainerOutlined, OrderedListOutlined, TagOutlined } from '@ant-design/icons';
+import { UserOutlined, ShopOutlined, ContainerOutlined, OrderedListOutlined, TagOutlined, PictureOutlined, DesktopOutlined, HighlightOutlined, } from '@ant-design/icons';
+import { BannersCreate } from "./pages/banner/create";
+import { BannersEdit } from "./pages/banner/edit";
+import { BannersShow } from "./pages/banner/show";
+import { BannersList } from "./pages/banner";
+import { BannersBrandsList } from "./pages/banner-brands/list";
+import { BannersBrandsCreate } from "./pages/banner-brands/create";
+import { BannersBrandsEdit } from "./pages/banner-brands/edit";
+import { BannersBrandsShow } from "./pages/banner-brands/show";
+import { ReviewsCreate, ReviewsEdit, ReviewsList, ReviewsShow } from "./pages/reviews";
 
 
 function App() {
@@ -177,6 +186,42 @@ function App() {
 
                     },
                   },
+                  {
+                    name: "banners",
+                    list: "/banners",
+                    create: "/banners/create",
+                    edit: "/banners/edit/:id",
+                    show: "/banners/show/:id",
+                    meta: {
+                      canDelete: true,
+                      icon: <PictureOutlined />,
+
+                    },
+                  },
+                  {
+                    name: "banner-brands",
+                    list: "/banners-brands",
+                    create: "/banners-brands/create",
+                    edit: "/banners-brands/edit/:id",
+                    show: "/banners-brands/show/:id",
+                    meta: {
+                      canDelete: true,
+                      icon: <DesktopOutlined />,
+
+                    },
+                  },
+                  {
+                    name: "reviews",
+                    list: "/reviews",
+                    create: "/reviews/create",
+                    edit: "/reviews/edit/:id",
+                    show: "/reviews/show/:id",
+                    meta: {
+                      canDelete: true,
+                      icon: <HighlightOutlined />,
+
+                    },
+                  },
                 ]}
                 options={{
                   syncWithLocation: true,
@@ -235,6 +280,24 @@ function App() {
                       <Route path="create" element={<BrandsCreate />} />
                       <Route path="edit/:id" element={<BrandsEdit />} />
                       <Route path="show/:id" element={<BrandsShow />} />
+                    </Route>
+                    <Route path="/banners">
+                      <Route index element={<BannersList />} />
+                      <Route path="create" element={<BannersCreate />} />
+                      <Route path="edit/:id" element={<BannersEdit />} />
+                      <Route path="show/:id" element={<BannersShow />} />
+                    </Route>
+                    <Route path="/banners-brands">
+                      <Route index element={<BannersBrandsList />} />
+                      <Route path="create" element={<BannersBrandsCreate />} />
+                      <Route path="edit/:id" element={<BannersBrandsEdit />} />
+                      <Route path="show/:id" element={<BannersBrandsShow />} />
+                    </Route>
+                    <Route path="/reviews">
+                      <Route index element={<ReviewsList />} />
+                      <Route path="create" element={<ReviewsCreate />} />
+                      <Route path="edit/:id" element={<ReviewsEdit />} />
+                      <Route path="show/:id" element={<ReviewsShow />} />
                     </Route>
                     <Route path="*" element={<ErrorComponent />} />
                   </Route>

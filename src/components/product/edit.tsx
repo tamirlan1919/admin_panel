@@ -33,14 +33,8 @@ export const EditProduct: React.FC<EditProductProps> = ({
 }) => {
     const { params } = useParsed<{ tenant: string }>();
     const productData = formProps?.initialValues;
-    const [selectedCategory, setSelectedCategory] = useState<string | undefined>(undefined);
-    const [selectedBrand, setSelectedBrand] = useState<string | undefined>(undefined);
 
     // Update selectedCategory and selectedBrand when categories or brands change
-    useEffect(() => {
-        setSelectedCategory(undefined);
-        setSelectedBrand(undefined);
-    }, [categories, brands]);
 
     console.log(productData)
     return (
@@ -72,13 +66,10 @@ export const EditProduct: React.FC<EditProductProps> = ({
                 {/* Dropdown for Category */}
                 <Form.Item
                     label="Категория"
-                    name={['category','name']}
+                    name={['category','id']}
                     rules={[{ required: true, message: 'Please select a category' }]}
                 >
-                    <Select
-                                            value={selectedCategory}
-                                            onChange={(value) => setSelectedCategory(value)}
-                    >
+                    <Select  >
                         {categories.map((category) => (
                             <Option key={category?.id}  value={category?.id}>
                                 {category.attributes?.name}
@@ -90,14 +81,12 @@ export const EditProduct: React.FC<EditProductProps> = ({
                 {/* Dropdown for Brand */}
                 <Form.Item
                     label="Бренд"
-                    name={['brand','name']}
+                    name={['brand','id']}
                     rules={[{ required: true, message: 'Please select a brand' }]}
                 >
-                    <Select 
-                              value={productData?.brand?.id}
-                    >
+                    <Select >
                         {brands.map((brand) => (
-                            <Option key={brand?.id} value={brand?.attributes?.name}>
+                            <Option key={brand?.id} value={brand?.id}>
                                 {brand.attributes?.name}
                             </Option>
                         ))}

@@ -4,17 +4,17 @@ import { Edit, useForm } from "@refinedev/antd";
 import { Form, Input, DatePicker } from "antd";
 import dayjs from "dayjs";
 
-export const CategoryEdit: React.FC<IResourceComponentsProps> = () => {
+export const ReviewsEdit: React.FC<IResourceComponentsProps> = () => {
     const translate = useTranslate();
     const { formProps, saveButtonProps, queryResult } = useForm();
 
-    const categoriesData = queryResult?.data?.data;
+    const reviewsData = queryResult?.data?.data;
 
     return (
         <Edit saveButtonProps={saveButtonProps}>
             <Form {...formProps} layout="vertical">
                 <Form.Item
-                    label={translate("id")}
+                    label={translate("reviews.fields.id")}
                     name={["id"]}
                     rules={[
                         {
@@ -25,8 +25,19 @@ export const CategoryEdit: React.FC<IResourceComponentsProps> = () => {
                     <Input readOnly disabled />
                 </Form.Item>
                 <Form.Item
-                    label={translate("Название")}
-                    name={["name"]}
+                    label={translate("Текст")}
+                    name={["text"]}
+                    rules={[
+                        {
+                            required: true,
+                        },
+                    ]}
+                >
+                    <Input />
+                </Form.Item>
+                <Form.Item
+                    label={translate("Рейтинг")}
+                    name={["rating"]}
                     rules={[
                         {
                             required: true,
