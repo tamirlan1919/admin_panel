@@ -10,33 +10,32 @@ const strapiAuthHelper = AuthHelper(API_URL + "/api");
 
 export const authProvider: AuthBindings = {
   login: async ({ email, password }) => {
-    if(email=='bichueva.milana@bk.ru' && password=='root123'){
-    const { data, status } = await strapiAuthHelper.login(email, password);
-    if (status === 200) {
-      localStorage.setItem(TOKEN_KEY, data.jwt);
-
-      // set header axios instance
-      axiosInstance.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${data.jwt}`;
-
-      return {
-        success: true,
-        redirectTo: "/",
-      };
+    if(email == 'tamirlan.chinchaev@gmail.com' && password == 'root123'){
+      const { data, status } = await strapiAuthHelper.login(email, password);
+    
+      if (status === 200) {
+        localStorage.setItem(TOKEN_KEY, data.jwt);
+  
+        // set header axios instance
+        axiosInstance.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${data.jwt}`;
+  
+        return {
+          success: true,
+          redirectTo: "/",
+        };
+      }
     }
-    }
-    else{
-      return {
-        success: false,
-        error: {
-          message: "Login failed",
-          name: "Invalid email or password",
-        },
-      };
-    }
-
- 
+  
+   
+    return {
+      success: false,
+      error: {
+        message: "Login failed",
+        name: "Invalid email or password",
+      },
+    };
   },
   logout: async () => {
     localStorage.removeItem(TOKEN_KEY);

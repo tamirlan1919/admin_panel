@@ -1,8 +1,10 @@
 import React from "react";
 import { IResourceComponentsProps, useTranslate } from "@refinedev/core";
 import { Create, useForm } from "@refinedev/antd";
-import { Form, Input, DatePicker } from "antd";
+import { Form, Input, DatePicker, Upload } from "antd";
 import dayjs from "dayjs";
+import { getValueProps } from "@refinedev/strapi-v4";
+import { API_URL, TOKEN_KEY } from "../../constants";
 
 export const BrandsCreate: React.FC<IResourceComponentsProps> = () => {
     const translate = useTranslate();
@@ -22,6 +24,31 @@ export const BrandsCreate: React.FC<IResourceComponentsProps> = () => {
                     ]}
                 >
                     <Input />
+                </Form.Item>
+                <Form.Item label="Image">
+                <Form.Item
+                        name="image"
+                        valuePropName="fileList"
+                        getValueProps={(data) => getValueProps(data, API_URL)}
+                        noStyle
+                       
+                    >
+                        <Upload.Dragger
+                            name="files"
+                            action={`${API_URL}/api/upload/`}
+                            headers={{
+                                Authorization: `Bearer ${localStorage.getItem(
+                                    TOKEN_KEY,
+                                )}`,
+                            }}
+                            listType="picture"
+                            multiple
+                        >
+                            <p className="ant-upload-text">
+                                Drag & drop a file in this area
+                            </p>
+                        </Upload.Dragger>
+                    </Form.Item>
                 </Form.Item>
                 <Form.Item
                     label={translate("Создан")}

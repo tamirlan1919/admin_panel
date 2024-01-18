@@ -14,11 +14,16 @@ import { Typography, List, Space } from "antd";
 
 const { Title } = Typography;
 
-
+// Define the type for the product
+type ProductType = {
+    id: string;
+    quantity: number;
+    // Add other properties if needed
+};
 
 const getProductNameById = (productId: any, products: any[]) => {
     const product = products?.find((p) => p.id == productId);
-    return product ? product?.name  : "Название не найдено";
+    return product ? product?.name : "Название не найдено";
 };
 
 export const OrdersShow: React.FC<IResourceComponentsProps> = () => {
@@ -44,15 +49,14 @@ export const OrdersShow: React.FC<IResourceComponentsProps> = () => {
             <Title level={5}>{translate("Создан")}</Title>
             <DateField value={record?.createdAt} />
             <hr />
-            
-            <Title style={{textAlign:'center', marginTop: '50px'}} level={5}>{translate("Товары")}</Title>
+
+            <Title style={{ textAlign: 'center', marginTop: '50px' }} level={5}>{translate("Товары")}</Title>
 
             <List
                 itemLayout="horizontal"
                 dataSource={record?.values.products}
-                style={{marginBottom: '50px'}}
-                renderItem={(product) => (
-                    
+                style={{ marginBottom: '50px' }}
+                renderItem={(product: ProductType) => (
                     <List.Item>
                         <Space direction="vertical">
                             <span>{getProductNameById(product.id, record?.products)}</span>
@@ -61,7 +65,7 @@ export const OrdersShow: React.FC<IResourceComponentsProps> = () => {
                     </List.Item>
                 )}
             />
-<hr />
+            <hr />
             <Title level={5}>{translate("Клиент")}</Title>
             <Space direction="vertical">
                 <span>{record?.user.username}</span>

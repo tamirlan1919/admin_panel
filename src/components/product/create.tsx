@@ -169,7 +169,7 @@ export const CreateProduct: React.FC<CreateProductProps> = ({
                                 )}`,
                             }}
                             listType="picture"
-                            multiple
+                            
                         >
                             <p className="ant-upload-text">
                                 Drag & drop a file in this area
