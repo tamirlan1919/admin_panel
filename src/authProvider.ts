@@ -10,7 +10,7 @@ const strapiAuthHelper = AuthHelper(API_URL + "/api");
 
 export const authProvider: AuthBindings = {
   login: async ({ email, password }) => {
-    if(email == 'tamirlan.chinchaev@gmail.com' && password == 'root123'){
+    if(email == 'araz@mail.ru' && password == 'Miracle1818'){
       const { data, status } = await strapiAuthHelper.login(email, password);
     
       if (status === 200) {
