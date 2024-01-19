@@ -7,15 +7,15 @@ import axios from "axios";
 
 export const axiosInstance = axios.create();
 const strapiAuthHelper = AuthHelper(API_URL + "/api");
-
+   
 export const authProvider: AuthBindings = {
   login: async ({ email, password }) => {
-    if(email == 'araz@mail.ru' && password == 'Miracle1818'){
+    
       const { data, status } = await strapiAuthHelper.login(email, password);
     
       if (status === 200) {
         localStorage.setItem(TOKEN_KEY, data.jwt);
-  
+        
         // set header axios instance
         axiosInstance.defaults.headers.common[
           "Authorization"
@@ -26,7 +26,7 @@ export const authProvider: AuthBindings = {
           redirectTo: "/",
         };
       }
-    }
+    
   
    
     return {
