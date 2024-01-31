@@ -70,7 +70,7 @@ export const ProductsList: React.FC<IResourceComponentsProps> = () => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await axios.get(`${API_URL}/api/categories?populate=*`, {
+                const response = await axios.get(`${API_URL}/api/categories?populate=*&pagination[page]=1&pagination[pageSize]=99999`, {
                     headers: {
                         Authorization: `Bearer ${TOKEN_KEY}`,
                     },
@@ -87,7 +87,7 @@ export const ProductsList: React.FC<IResourceComponentsProps> = () => {
     useEffect(() => {
         const fetchBrands = async () => {
           try {
-            const response = await axios.get(`${API_URL}/api/brands?populate=*`, {
+            const response = await axios.get(`${API_URL}/api/brands?populate=*&pagination[page]=1&pagination[pageSize]=99999`, {
               headers: {
                 Authorization: `Bearer ${TOKEN_KEY}`,
               },
